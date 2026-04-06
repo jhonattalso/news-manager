@@ -83,3 +83,4 @@ catch (Exception ex) {
 finally {
     Log.CloseAndFlush();
 }
+public partial class Program { }
