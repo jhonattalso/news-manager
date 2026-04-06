@@ -8,11 +8,11 @@ public class News
 
     [Required]
     [StringLength(150)]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     [Required]
     [StringLength(100)]
-    public string Author { get; set; }
+    public string Author { get; set; } = string.Empty;
 
     [DataType(DataType.Date)]
     public DateTime PublishDate { get; set; }
@@ -22,7 +22,7 @@ public class News
 
     [Required]
     [DataType(DataType.MultilineText)]
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 
     public bool IsPublished { get; set; }
 }

@@ -15,7 +15,7 @@ public class NewsRepository : INewsRepository {
     }
 
     public News GetById(int id) {
-        return _context.News.Find(id);
+        return _context.News.Find(id)!;
     }
 
     public void Add(News news) {

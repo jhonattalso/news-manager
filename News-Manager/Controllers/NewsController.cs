@@ -18,7 +18,7 @@ public class NewsController : Controller {
     [Route("lista")]
     public IActionResult Index(string search) {
         _logger.LogInformation("Listando notícias. Filtro de busca: {Search}", search ?? "Nenhum");
-        var news = _service.ListarTodas(search);
+        var news = _service.ListarTodas(search!);
         ViewData["Search"] = search;
         return View(news);
     }
