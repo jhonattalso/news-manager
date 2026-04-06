@@ -12,6 +12,8 @@ public class NewsController : Controller {
     }
 
     // GET: /News
+    [Route("")]
+    [Route("lista")]
     public IActionResult Index(string search) {
         var news = _service.ListarTodas(search);
         ViewData["Search"] = search;
@@ -19,6 +21,7 @@ public class NewsController : Controller {
     }
 
     // GET: /News/Details/5
+    [Route("detalhes/{id:int}")]
     public IActionResult Details(int id) {
         var news = _service.ObterPorId(id);
         if (news == null) return NotFound();
@@ -26,12 +29,13 @@ public class NewsController : Controller {
     }
 
     // GET: /News/Create
+    [Route("cadastrar")]
     public IActionResult Create() {
         return View(new NewsCreateViewModel());
     }
 
     // POST: /News/Create
-    [HttpPost]
+    [HttpPost("cadastrar")]
     [ValidateAntiForgeryToken]
     public IActionResult Create(NewsCreateViewModel model) {
         if (!ModelState.IsValid) return View(model);
@@ -41,6 +45,7 @@ public class NewsController : Controller {
     }
 
     // GET: /News/Edit/5
+    [Route("editar/{id:int}")]
     public IActionResult Edit(int id) {
         var news = _service.ObterPorId(id);
         if (news == null) return NotFound();
@@ -59,7 +64,7 @@ public class NewsController : Controller {
     }
 
     // POST: /News/Edit/5
-    [HttpPost]
+    [HttpPost("editar/{id:int}")]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, NewsEditViewModel model) {
         if (id != model.Id) return BadRequest();
@@ -71,6 +76,7 @@ public class NewsController : Controller {
     }
 
     // GET: /News/Delete/5
+    [Route("excluir/{id:int}")]
     public IActionResult Delete(int id) {
         var news = _service.ObterPorId(id);
         if (news == null) return NotFound();
@@ -78,7 +84,7 @@ public class NewsController : Controller {
     }
 
     // POST: /News/Delete/5
-    [HttpPost, ActionName("Delete")]
+    [HttpPost("excluir/{id:int}"), ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public IActionResult DeleteConfirmed(int id) {
         _service.Excluir(id);
