@@ -9,7 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<NewsDbContext>(options =>
     options.UseOracle(builder.Configuration.GetConnectionString("OracleConnection")));
 
-// Registro do Repositório (Scoped é o padrão para Web Apps com Banco de Dados)
+// ---------------- Helth Check para Oracle ----------------
+builder.Services.AddHealthChecks()
+    .AddOracle(
+        connectionString: builder.Configuration.GetConnectionString("OracleConnection"),
+        name: "oracle_db",
+        failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Unhealthy,
+        tags: new[] { "db", "oracle" }
+    );
+// ---------------------------------------------------------
+
 builder.Services.AddScoped<INewsRepository, NewsRepository>();
 builder.Services.AddScoped<INewsService, NewsService>();
 
@@ -30,5 +39,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=News}/{action=Index}/{id?}");
+
+app.MapHealthChecks("/health");
 
 app.Run();
