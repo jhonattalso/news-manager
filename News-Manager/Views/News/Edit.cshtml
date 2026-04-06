@@ -1,0 +1,60 @@
+﻿@using News_Manager.Models
+@model News_Manager.ViewModels.NewsEditViewModel
+
+@{
+    ViewData["Title"] = "Editar Notícia";
+}
+
+<div class="container mt-4">
+    <h1>Editar Notícia</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="control-label">Título</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label asp-for="Author" class="control-label">Autor</label>
+                        <input asp-for="Author" class="form-control" />
+                        <span asp-validation-for="Author" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label asp-for="Category" class="control-label">Categoria</label>
+                        <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()"></select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Content" class="control-label">Conteúdo</label>
+                    <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" asp-for="IsPublished" />
+                    <label class="form-check-label" asp-for="IsPublished">Publicar Notícia?</label>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-warning">Atualizar</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

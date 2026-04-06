@@ -1,0 +1,24 @@
+﻿@model News_Manager.Models.News
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between">
+            <span>Publicado em @Model.PublishDate.ToLongDateString()</span>
+            <span class="badge bg-light text-dark">@Model.Category</span>
+        </div>
+        <div class="card-body p-4">
+            <h1 class="display-4">@Model.Title</h1>
+            <p class="lead">Por: <strong>@Model.Author</strong></p>
+            <hr />
+            <p style="white-space: pre-line">@Model.Content</p>
+        </div>
+        <div class="card-footer bg-light p-3">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Voltar para Lista</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<News_Manager.Models.News>
+
+@{
+    ViewData["Title"] = "Notícias - News Manager";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Notícias</h1>
+        <a asp-action="Create" class="btn btn-primary">Nova Notícia</a>
+    </div>
+
+    @* Formulário de Busca *@
+    <form asp-action="Index" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Buscar por título ou autor..." value="@ViewData["Search"]" />
+            <button type="submit" class="btn btn-outline-secondary">Pesquisar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        @foreach (var item in Model) {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Por @item.Author</h6>
+                        <p class="card-text text-truncate">@item.Content</p>
+                        <p><span class="badge bg-info">@item.Category</span></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Ver</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

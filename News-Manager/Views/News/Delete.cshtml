@@ -1,0 +1,25 @@
+﻿@model News_Manager.Models.News
+
+@{
+    ViewData["Title"] = "Excluir Notícia";
+}
+
+<div class="container mt-4 text-center">
+    <div class="alert alert-danger">
+        <h3>Tem certeza que deseja excluir esta notícia?</h3>
+        <p>Esta ação não pode ser desfeita.</p>
+    </div>
+
+    <div class="card w-50 mx-auto">
+        <div class="card-body">
+            <h4 class="card-title">@Model.Title</h4>
+            <p class="text-muted">Autor: @Model.Author</p>
+        </div>
+    </div>
+
+    <form asp-action="Delete" class="mt-4">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger btn-lg px-5">Sim, Excluir</button>
+        <a asp-action="Index" class="btn btn-secondary btn-lg px-5">Não, Voltar</a>
+    </form>
+</div>
