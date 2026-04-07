@@ -1,270 +1,128 @@
-# 📰 News Manager
+# News Manager
+> **Challenge - Sprint 3 | FIAP**
+>
+> Advanced Business Development With .NET
 
-## 👥 Integrantes do Grupo
-## 2TDSPA
+O **News-Manager** é uma plataforma central de gerenciamento de notícias e comunicados. O projeto permite que administradores cadastrem, editem e publiquem conteúdos relevantes, garantindo que investidores e empreendedores estejam sempre atualizados.
 
-### RM : 561160 Lucas José Lima
+A aplicação foi desenvolvida em **ASP.NET Core MVC** e utiliza o **Oracle Database** para persistência robusta de dados
 
-### RM : 560547 Rangel Bernardi Jordao
+### Integrantes do Grupo
+* **Jhonatta Lima Sandes de Oliveira** - RM: 560277
+* **Rangel Bernadi Jordão** - RM: 560547
+* **Lucas José Lima** - RM: 561160
 
----
-
-## 🎯 Objetivo do Projeto
-
-O **News Manager** é uma aplicação web desenvolvida em **ASP.NET Core MVC** que realiza as operações básicas de **CRUD** (Create, Read, Update e Delete) sobre um conjunto de notícias, além de permitir a **pesquisa** por título ou autor.  
-O sistema foi construído **sem uso de banco de dados**, armazenando as informações **em memória**
-
-O projeto foi criado com foco em:
-- Implementar as principais funcionalidades do padrão **MVC (Model-View-Controller)**;
-- Utilizar **Tag Helpers** do ASP.NET Core;
-- Aplicar **validação de dados** no Model;
-- Criar **layout responsivo** com Bootstrap;
-- Garantir a **confirmação de exclusão** de registros;
-- Demonstrar o uso de diferentes tipos de dados (ex.: string, DateTime, enum).
-
----
-
-## 🧩 Estrutura do Projeto
-
-- **News-Manager/**
-  - **Controllers/**
-    - `HomeController.cs`
-    - `NewsController.cs`
-  - **Models/**
-    - `News.cs`
-  - **Repositories/**
-    - `InMemoryNewsRepository.cs`
-  - **Views/**
-    - **Home/**
-      - `Index.cshtml`
-    - **News/**
-      - `Index.cshtml`
-      - `Create.cshtml`
-      - `Edit.cshtml`
-      - `Delete.cshtml`
-      - `Details.cshtml`
-    - **Shared/**
-      - `_Layout.cshtml`
-      - `_ValidationScriptsPartial.cshtml`
-  - **wwwroot/**
-    - **css/**
-    - **js/**
-    - **lib/**
-  - `Program.cs`
-
+**Turma:** 2TDSPA
 
 
 ---
 
-## ⚙️ Tecnologias e Dependências
+## Decisões Arquiteturais
 
-| Tecnologia / Pacote | Descrição |
-|----------------------|-----------|
-| **.NET 8.0 / ASP.NET Core MVC** | Framework base do projeto |
-| **Bootstrap 5 (CDN)** | Estilização e layout responsivo |
-| **Tag Helpers** | Ligação entre Controller e View |
-| **C# 12** | Linguagem utilizada |
-| **Visual Studio 2022** | IDE de desenvolvimento |
-| **NuGet Packages** | `Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation` |
+O projeto segue a arquitetura MVC (Model-View-Controller), com foco em separação de responsabilidades e alta manutenibilidade.
+
+* **Framework:** .NET 9 / ASP.NET Core MVC.
+* **ORM:** Entity Framework Core (EF Core) para manipulação de dados.
+* **Banco de Dados:** Oracle Database.
+* **Design Patterns:**
+    * **Dependency Injection:** Injeção de dependências nativa para INewsService e INewsRepository.
+    * **Service Layer:** Camada de serviço (NewsService.cs) para isolar regras de negócio.
+    * **Repository Pattern:** Desacoplamento do acesso a dados via NewsRepository.cs
+* **Front-end:** Razor Views com Bootstrap para estilização responsiva e layout consistente.
 
 ---
 
-## 🧱 Modelos e Tipos de Dados
+## Monitoramento e Observabilidade (Novo)
 
-### Classe `News`
-| Propriedade | Tipo | Descrição |
-|--------------|------|-----------|
-| `Id` | `int` | Identificador único |
-| `Title` | `string` | Título da notícia |
-| `Author` | `string` | Nome do autor |
-| `PublishDate` | `DateTime` | Data de publicação |
-| `Category` | `NewsCategory (enum)` | Categoria da notícia |
-| `Content` | `string` | Texto completo da notícia |
+Implementamos ferramentas de diagnóstico para garantir que a aplicação opere de forma saudável e que erros possam ser rastreados rapidamente.
 
-### Enum `NewsCategory`
-```csharp
-public enum NewsCategory
-{
-    Politica,
-    Tecnologia,
-    Esportes,
-    Entretenimento,
-    Economia
+* **Health Checks**: Endpoint configurado em /health para monitorar a saúde da aplicação e a conectividade com o banco de dados Oracle.
+* **Logging Estruturado**: Utilização do Serilog para geração de logs detalhados, com saída simultânea para o Console e arquivos locais de texto.
+* **Tracing e Métricas**: Integração com OpenTelemetry para rastrear o tempo de execução de requisições e monitorar o desempenho entre as camadas de serviço e repositório. 
+
+---
+
+## Rotas e Navegação (Endpoints)
+
+A aplicação utiliza **Attribute Routing** para definir URLs amigáveis e descritivas, facilitando a navegação e a manutenção do sistema.
+
+| Funcionalidade | Método HTTP | Rota / Endpoint | Descrição | Acesso |
+| :--- | :---: | :--- | :--- | :---: |
+| **Home / Listagem** | `GET` | `/` ou `/lista` | Página principal que lista todas as notícias com suporte a busca. | Público |
+| **Health Check** | `GET` | `/health` | Endpoint técnico que verifica a saúde da aplicação e do banco Oracle. | Público |
+| **Visualizar Notícia** | `GET` | `/detalhes/{id}` | Exibe o conteúdo completo, autor e data de publicação de uma notícia. | Público |
+| **Criar Notícia (Tela)** | `GET` | `/cadastrar` | Exibe o formulário para cadastro de uma nova notícia. | Público |
+| **Criar Notícia (Ação)** | `POST` | `/cadastrar` | Processa os dados do formulário e salva a nova notícia no banco. | Público |
+| **Editar Notícia (Tela)** | `GET` | `/editar/{id}` | Exibe o formulário de edição preenchido com os dados atuais da notícia. | Público |
+| **Editar Notícia (Ação)** | `POST` | `/editar/{id}` | Processa as alterações realizadas na notícia e atualiza o registro. | Público |
+| **Excluir Notícia (Tela)** | `GET` | `/excluir/{id}` | Exibe uma página de confirmação antes de remover a notícia. | Público |
+| **Excluir Notícia (Ação)** | `POST` | `/excluir/{id}` | Remove definitivamente o registro da notícia do banco de dados. | Público |
+
+---
+
+## Testes Automatizados (Padrão AAA)
+
+A aplicação conta com uma suíte de testes rigorosa para garantir a qualidade do código e a confiabilidade das regras de negócio.
+
+### 1. Testes Unitários (xUnit & Moq)
+Desenvolvidos para as camadas de Domínio e Aplicação (foco no `NewsService`), os testes unitários seguem o padrão **AAA (Arrange, Act, Assert)** para garantir clareza e isolamento.
+* **Framework**: xUnit.
+* **Mocking**: Moq para simulação de dependências do repositório.
+* **Nomenclatura**: Os métodos de teste seguem o padrão `Metodo_Cenario_ResultadoEsperado`.
+* **Organização**: Localizados no projeto `News-Manager.Tests`, dentro da pasta `UnitTests`.
+
+### 2. Testes de Integração
+Estes testes validam o funcionamento dos endpoints da API de ponta a ponta, simulando o comportamento real do servidor.
+* **WebApplicationFactory**: Utilizado para subir a aplicação em memória durante a execução dos testes.
+* **Escopo**: Validação de fluxos HTTP, incluindo códigos de status (Success, NotFound), cabeçalhos de resposta e integridade do processamento de dados.
+* **Organização**: Localizados no projeto `News-Manager.Tests`, dentro da pasta `IntegrationTests`.
+
+### Como executar os testes
+
+Para rodar toda a suíte de testes automatizados, certifique-se de estar na raiz da solução e execute o seguinte comando no terminal:
+
+```bash
+dotnet test
+```
+
+---
+
+## Configurando a Conexão
+
+O projeto espera uma conexão com o Oracle. Você deve configurar a string de conexão.
+Edite o arquivo appsettings.json na raiz do projeto e substitua os valores:
+```bash
+"ConnectionStrings": {
+  "OracleConnection": "Data Source=seu_datasource_oracle;User Id=seu_usuario;Password=sua_senha;"
 }
-
-[Controller] → chama → [Repository] → manipula → [Model] → exibe → [View]
-
-+-------------------+
-|  NewsController   |
-|-------------------|
-| Index()           |
-| Create()          |
-| Edit()            |
-| Delete()          |
-+-------------------+
-          |
-          v
-+-------------------+
-| InMemoryNewsRepo  |
-|-------------------|
-| Add()             |
-| Update()          |
-| Delete()          |
-| Search()          |
-| GetAll()          |
-+-------------------+
-          |
-          v
-+-------------------+
-|      News         |
-|-------------------|
-| Id, Title, etc... |
-+-------------------+
-
-
-## 🧭 Endpoints e Funcionalidades
-
-| **Endpoint**                | **Método** | **Função**          | **Descrição**                                      |
-|-----------------------------|-------------|----------------------|----------------------------------------------------|
-| `/News`                     | GET         | Index               | Lista todas as notícias                            |
-| `/News?search=algo`         | GET         | Index               | Pesquisa por título ou autor                       |
-| `/News/Create`              | GET / POST  | Create              | Criação de nova notícia                            |
-| `/News/Edit/{id}`           | GET / POST  | Edit                | Edição de notícia existente                        |
-| `/News/Delete/{id}`         | GET         | Delete              | Página de confirmação de exclusão                  |
-| `/News/DeleteConfirmed`     | POST        | DeleteConfirmed     | Executa a exclusão                                 |
-| `/News/Details/{id}`        | GET         | Details             | Exibe detalhes da notícia                          |
+```
 
 ---
 
-## 🖼️ Layout e Telas
+## Como Rodar o Projeto
 
-📌 O layout utiliza **Bootstrap 5**, com **header fixo** e **footer ajustado**.  
-📌 Todas as páginas herdam o layout `_Layout.cshtml` via `@RenderBody()`.
-
----
-
-### 🏠 Tela Inicial (Home)
-Apresenta uma breve descrição do sistema e um link para a listagem de notícias.
-
----
-
-### 📰 Lista de Notícias (Index)
-- Exibe todas as notícias cadastradas.  
-- Possui campo de **pesquisa** e botões de ação:  
-  - 🔍 **Detalhes**  
-  - ✏️ **Editar**  
-  - ❌ **Excluir**
-
----
-
-### ➕ Criar Notícia (Create)
-- Formulário com **validação de campos**.  
-- Uso de **Tag Helpers** do ASP.NET.  
-- Dropdown de **categoria** (enum).  
-
----
-
-### ✏️ Editar Notícia (Edit)
-- Permite alterar os dados de uma notícia existente.  
-- Validação automática nos campos obrigatórios.
-
----
-
-### 🔍 Detalhes da Notícia (Details)
-- Exibe todas as informações completas da notícia selecionada.  
-- Acesso via botão "Detalhes" na página de listagem.
-
----
-
-### ❌ Confirmação de Exclusão (Delete)
-- Tela que solicita confirmação antes de remover uma notícia.  
-- Após confirmar, redireciona de volta para a listagem.
-
----
-
-## 🔍 Pesquisa
-A página **Index** contém um campo de pesquisa que filtra as notícias pelo **título** ou **autor**.  
-A funcionalidade foi implementada no método `Search()` do **repositório** e tratada no **NewsController**.
-
----
-
-## ✅ Validação de Dados
-
-A classe `News` contém anotações de validação:
-
-```csharp
-[Required(ErrorMessage = "O campo Título é obrigatório.")]
-[StringLength(100)]
-[DataType(DataType.Date)]
+### Pré-requisitos
+* [.NET SDK](https://dotnet.microsoft.com/download) instalado.
+* Acesso a um banco de dados **Oracle**.
+* Visual Studio 2022 ou VS Code.
 
 
-🖼️ Layout e Telas
+#### 1. Clonando e entrando na pasta do projeto
+Antes de executar os outros comandos, certifique-se de entrar na pasta da aplicação:
+```bash
+git clone https://github.com/jhonattalso/news-manager.git
+cd News-Manager
+```
 
-📌 O layout utiliza Bootstrap 5 com header fixo e footer ajustado.
-📌 Todas as páginas herdam o layout _Layout.cshtml via @RenderBody().
-📌 As views utilizam Tag Helpers para navegação entre controladores e ações.
+#### 2. Aplicando Migrations
+Para criar as tabelas no banco de dados, execute o comando abaixo na raiz do projeto (onde está o arquivo .csproj):
+```
+dotnet ef database update
+```
 
-🏠 Tela Inicial (Home)
-
-Apresenta uma breve descrição do sistema e links para a listagem e criação de notícias.
-Utiliza o layout principal (_Layout.cshtml) e Tag Helpers para redirecionamento.
-
-<img width="1919" height="1019" alt="home" src="https://github.com/user-attachments/assets/7c49ae38-5c34-4942-a549-9795267abf6d" />
-
-
-
-📰 Lista de Notícias (Index)
-
-Exibe todas as notícias cadastradas no sistema.
-Possui campo de pesquisa e botões de ação (Detalhes, Editar, Excluir).
-A pesquisa é feita por título ou autor, utilizando o método Search() no repositório.
-
-
-<img width="1919" height="1020" alt="ListAll" src="https://github.com/user-attachments/assets/aa4cdf61-49a0-4933-be0a-7ebc9caadb0a" />
-
-
-
-➕ Criar Notícia (Create)
-
-Formulário com validação de dados, uso de Tag Helpers e dropdown de categoria (enum).
-Os campos obrigatórios utilizam anotações como [Required] e [StringLength].
-
-<img width="1919" height="908" alt="Create" src="https://github.com/user-attachments/assets/6bbc1a4f-3f2e-410c-8634-1fc1255a17e1" />
-
-
-
-✏️ Editar Notícia (Edit)
-
-Permite alterar os dados de uma notícia existente.
-Utiliza o mesmo modelo de validação da tela de criação e reaproveita o layout.
-
-<img width="1919" height="905" alt="Edit" src="https://github.com/user-attachments/assets/a5eea049-c1a7-402c-9ece-024558192d43" />
-
-
-🔍 Detalhes da Notícia (Details)
-
-Mostra todas as informações completas da notícia, como título, conteúdo, autor e data.
-É acessada através do botão Detalhes na listagem principal.
-
-<img width="1919" height="909" alt="Details" src="https://github.com/user-attachments/assets/d27fb58b-6863-4109-b9f4-3f735b227982" />
-
-
-❌ Confirmação de Exclusão (Delete)
-
-Exibe uma tela de confirmação antes de remover definitivamente uma notícia.
-A exclusão é feita via método POST com ação DeleteConfirmed.
-
-<img width="1919" height="1020" alt="Remove" src="https://github.com/user-attachments/assets/029fc7a2-b32b-4f7a-95af-8c5c595ffe27" />
-
-
-🔎 Pesquisa
-
-A tela de listagem (Index) contém um campo de busca que filtra as notícias pelo título ou autor.
-A pesquisa é implementada no repositório (InMemoryNewsRepository) e tratada no NewsController.
-
-<img width="1919" height="1019" alt="Search_By" src="https://github.com/user-attachments/assets/c8e4ec27-8704-495f-94d0-4aa14bd667fc" />
-
-
-
-
+#### 3. Executando a Aplicação
+Após configurar o banco, inicie o servidor apertando F5 ou abrindo o terminal e digitando (Lembre-se: Você deve estar dentro da pasta News-Manager):
+```
+dotnet run
+```
 
