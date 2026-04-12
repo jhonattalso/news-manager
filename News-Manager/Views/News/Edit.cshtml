@@ -1,52 +1,74 @@
-﻿@using News_Manager.Models
+@using News_Manager.Models
 @model News_Manager.ViewModels.NewsEditViewModel
 
 @{
     ViewData["Title"] = "Editar Notícia";
 }
 
-<div class="container mt-4">
-    <h1>Editar Notícia</h1>
-    <hr />
-    <div class="row">
-        <div class="col-md-8">
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-8 col-xl-7">
+        
+        <div class="d-flex align-items-center mb-4">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-circle me-3" style="padding: 0.35rem 0.6rem;">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <div>
+                <h2 class="mb-0">Editar Notícia</h2>
+                <p class="text-muted mb-0">Atualize os dados que precisam de correção.</p>
+            </div>
+        </div>
+
+        <div class="premium-card border-top border-4 border-warning">
             <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <!-- Hidden input for ID -->
                 <input type="hidden" asp-for="Id" />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Title" class="control-label">Título</label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
+                <div class="form-group mb-4">
+                    <label asp-for="Title" class="control-label">Título da Notícia</label>
+                    <input asp-for="Title" class="form-control form-control-lg" placeholder="Ex: O fututo da tecnologia..." />
+                    <span asp-validation-for="Title" class="text-danger small mt-1"></span>
                 </div>
 
-                <div class="row mb-3">
-                    <div class="col">
-                        <label asp-for="Author" class="control-label">Autor</label>
-                        <input asp-for="Author" class="form-control" />
-                        <span asp-validation-for="Author" class="text-danger"></span>
+                <div class="form-group mb-4">
+                    <label asp-for="Author" class="control-label">Autor</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-muted"><i class="bi bi-person"></i></span>
+                        <input asp-for="Author" class="form-control" placeholder="Seu nome" />
                     </div>
-                    <div class="col">
+                    <span asp-validation-for="Author" class="text-danger small mt-1"></span>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <label asp-for="PublishDate" class="control-label">Data de Publicação</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted"><i class="bi bi-calendar-event"></i></span>
+                            <input asp-for="PublishDate" class="form-control" type="date" />
+                        </div>
+                        <span asp-validation-for="PublishDate" class="text-danger small mt-1"></span>
+                    </div>
+                    <div class="col-md-6">
                         <label asp-for="Category" class="control-label">Categoria</label>
-                        <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()"></select>
-                        <span asp-validation-for="Category" class="text-danger"></span>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light text-muted"><i class="bi bi-tag"></i></span>
+                            <select asp-for="Category" class="form-select" asp-items="Html.GetEnumSelectList<Category>()"></select>
+                        </div>
+                        <span asp-validation-for="Category" class="text-danger small mt-1"></span>
                     </div>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label asp-for="Content" class="control-label">Conteúdo</label>
-                    <textarea asp-for="Content" class="form-control" rows="5"></textarea>
-                    <span asp-validation-for="Content" class="text-danger"></span>
+                <div class="form-group mb-5">
+                    <label asp-for="Content" class="control-label">Conteúdo Completo</label>
+                    <textarea asp-for="Content" class="form-control" rows="8" placeholder="Escreva a sua história aqui..."></textarea>
+                    <span asp-validation-for="Content" class="text-danger small mt-1"></span>
                 </div>
 
-                <div class="form-check mb-4">
-                    <input class="form-check-input" asp-for="IsPublished" />
-                    <label class="form-check-label" asp-for="IsPublished">Publicar Notícia?</label>
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-warning">Atualizar</button>
-                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                <hr class="mb-4" />
+                <div class="d-flex justify-content-end gap-2">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                    <!-- Used a generic 'btn-primary' as its more standard for an action save, or warning if requested. -->
+                    <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check2-circle me-1"></i> Salvar Alterações</button>
                 </div>
             </form>
         </div>

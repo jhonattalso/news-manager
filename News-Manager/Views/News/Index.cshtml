@@ -1,40 +1,73 @@
-﻿@model IEnumerable<News_Manager.Models.News>
+@model IEnumerable<News_Manager.Models.News>
 
 @{
     ViewData["Title"] = "Notícias - News Manager";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Notícias</h1>
-        <a asp-action="Create" class="btn btn-primary">Nova Notícia</a>
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+        <h1 class="mb-1">Notícias</h1>
+        <p class="text-secondary mb-0">Gerencie todas as publicações cadastradas.</p>
     </div>
+    <a asp-action="Create" class="btn btn-primary shadow-sm hover-elevate">
+        <i class="bi bi-plus-lg me-1"></i> Nova Notícia
+    </a>
+</div>
 
-    @* Formulário de Busca *@
-    <form asp-action="Index" method="get" class="mb-4">
+@* Formulário de Busca Premium *@
+<div class="card premium-card mb-5 p-4 shadow-sm border-0 d-flex flex-row align-items-center">
+    <form asp-action="Index" method="get" class="w-100 m-0">
         <div class="input-group">
-            <input type="text" name="search" class="form-control" placeholder="Buscar por título ou autor..." value="@ViewData["Search"]" />
-            <button type="submit" class="btn btn-outline-secondary">Pesquisar</button>
+            <span class="input-group-text bg-white border-end-0 text-muted ps-4">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" name="search" class="form-control border-start-0 ps-1" placeholder="Buscar por título ou autor..." value="@ViewData["Search"]" />
+            <button type="submit" class="btn btn-secondary bg-secondary px-4 text-white">Pesquisar</button>
         </div>
     </form>
+</div>
 
-    <div class="row">
+<div class="row g-4">
+    @if (Model.Any())
+    {
         @foreach (var item in Model) {
-            <div class="col-md-4 mb-3">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Por @item.Author</h6>
-                        <p class="card-text text-truncate">@item.Content</p>
-                        <p><span class="badge bg-info">@item.Category</span></p>
-                    </div>
-                    <div class="card-footer bg-transparent border-top-0">
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Editar</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Ver</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Excluir</a>
+            <div class="col-md-6 col-lg-4 d-flex">
+                <div class="card news-card w-100">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-info text-primary"><i class="bi bi-tag-fill me-1"></i> @item.Category</span>
+                            <small class="text-muted"><i class="bi bi-calendar3 me-1"></i> @item.PublishDate.ToShortDateString()</small>
+                        </div>
+                        <h4 class="card-title fw-bold mb-2 text-dark">@item.Title</h4>
+                        <h6 class="card-subtitle mb-3 text-secondary" style="font-weight: 500;">
+                            <i class="bi bi-person-circle me-1"></i> Por @item.Author
+                        </h6>
+                        <p class="card-text text-muted" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; height: 4.5em;">@item.Content</p>
+                        
+                        <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                            <div class="btn-group w-100">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-eye"></i> Ler
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         }
-    </div>
+    }
+    else
+    {
+        <div class="col-12 text-center py-5">
+            <i class="bi bi-journal-x display-1 text-muted opacity-50 mb-3"></i>
+            <h3 class="text-secondary">Nenhuma notícia encontrada</h3>
+            <p class="text-muted">Desculpe, não conseguimos localizar nenhuma notícia cadastrada usando os termos atuais.</p>
+        </div>
+    }
 </div>

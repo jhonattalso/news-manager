@@ -1,24 +1,53 @@
-﻿@model News_Manager.Models.News
+@model News_Manager.Models.News
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Detalhes - " + Model.Title;
 }
 
-<div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white d-flex justify-content-between">
-            <span>Publicado em @Model.PublishDate.ToLongDateString()</span>
-            <span class="badge bg-light text-dark">@Model.Category</span>
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-9 col-xl-8">
+        
+        <div class="d-flex align-items-center mb-4">
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-circle me-3" style="padding: 0.35rem 0.6rem;" title="Voltar para Notícias">
+                <i class="bi bi-arrow-left"></i>
+            </a>
+            <h2 class="mb-0 text-secondary">Detalhes da Notícia</h2>
         </div>
-        <div class="card-body p-4">
-            <h1 class="display-4">@Model.Title</h1>
-            <p class="lead">Por: <strong>@Model.Author</strong></p>
-            <hr />
-            <p style="white-space: pre-line">@Model.Content</p>
-        </div>
-        <div class="card-footer bg-light p-3">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-            <a asp-action="Index" class="btn btn-outline-secondary">Voltar para Lista</a>
+
+        <div class="premium-card p-5">
+            <div class="mb-4">
+                <span class="badge bg-info text-primary rounded-pill mb-3">
+                    <i class="bi bi-tag-fill me-1"></i>@Model.Category
+                </span>
+                <h1 class="display-5 fw-bold text-dark mb-3">@Model.Title</h1>
+                
+                <div class="d-flex align-items-center text-muted border-bottom pb-4 mb-4">
+                    <div class="me-4 border-end pe-4">
+                        <i class="bi bi-person-circle me-1"></i> <span class="fw-medium">@Model.Author</span>
+                    </div>
+                    <div>
+                        <i class="bi bi-calendar3 me-1"></i> <span class="fw-medium">@Model.PublishDate.ToLongDateString()</span>
+                    </div>
+                </div>
+            </div>
+
+            <article class="fs-5" style="line-height: 1.8; color: #334155; white-space: pre-wrap;">@Model.Content</article>
+            
+            <hr class="mt-5 mb-4" />
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-list me-1"></i> Ir para Lista
+                </a>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary me-2">
+                        <i class="bi bi-pencil me-1"></i> Editar Notícia
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

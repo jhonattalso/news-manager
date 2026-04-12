@@ -1,36 +1,46 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - NewsManager</title>
+    <!-- Use Google Fonts (Inter) imported in site.css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Option for Bootstrap Icons if needed for enhancements -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">NewsManager</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="News" asp-action="Index">Notícias</a></li>
+            <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-newspaper me-2 fs-4"></i>NewsManager
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="News" asp-action="Index">Notícias</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main role="main" class="flex-fill container pb-3">
+    <!-- Adiciona padding top para não ficar debaixo do navbar fixo -->
+    <main role="main" class="flex-fill container" style="padding-top: 6rem; padding-bottom: 3rem;">
         @RenderBody()
     </main>
 
-    <footer class="border-top footer text-muted mt-auto">
-        <div class="container text-center py-3">
-            &copy; 2025 - NewsManager
+    <footer class="footer text-muted mt-auto py-3">
+        <div class="container text-center">
+            &copy; 2025 - <span class="fw-semibold">NewsManager</span>
         </div>
     </footer>
 
     @RenderSection("Scripts", required: false)
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

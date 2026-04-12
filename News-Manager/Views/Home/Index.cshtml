@@ -1,16 +1,20 @@
-﻿@{
+@{
     ViewData["Title"] = "Bem-vindo ao News Manager";
 }
 
-<div class="text-center mt-5">
-    <h1 class="display-4">Bem-vindo ao News Manager</h1>
-    <p>Gerencie suas notícias de forma rápida e simples!</p>
+<div class="hero-section text-center mt-4">
+    <h1 class="display-4 fw-bold mb-4" style="color: var(--secondary-color);">Bem-vindo ao News Manager</h1>
+    <p class="lead mb-5 text-secondary" style="max-width: 600px; margin: 0 auto; line-height: 1.6;">
+        Gerencie todas as suas notícias, reportagens e categorias de forma rápida, simples e com uma interface que vai impressionar todos!
+    </p>
 
-    <a asp-controller="News" asp-action="Index" class="btn btn-primary btn-lg mt-3">
-        Ver notícias
-    </a>
+    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+        <a asp-controller="News" asp-action="Index" class="btn btn-primary btn-lg shadow">
+            <i class="bi bi-collection"></i> Acessar Notícias
+        </a>
 
-    <a asp-controller="News" asp-action="Create" class="btn btn-outline-secondary btn-lg mt-3 ms-2">
-        Adicionar nova notícia
-    </a>
+        <a asp-controller="News" asp-action="Create" class="btn btn-outline-secondary btn-lg bg-white">
+            <i class="bi bi-plus-lg"></i> Adicionar nova notícia
+        </a>
+    </div>
 </div>
