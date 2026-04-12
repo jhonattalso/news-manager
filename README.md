@@ -114,13 +114,28 @@ git clone https://github.com/jhonattalso/news-manager.git
 cd News-Manager
 ```
 
-#### 2. Aplicando Migrations
+#### 2. Restaurar as dependências
+```bash
+dotnet restore
+```
+
+#### 3. Instalar o Entity Framework CLI
+```bash
+dotnet tool install --global dotnet-ef
+```
+> Se já tiver instalado e quiser atualizar:
+> ```bash
+> dotnet tool update --global dotnet-ef
+> ```
+
+
+#### 4. Aplicando Migrations
 Para criar as tabelas no banco de dados, execute o comando abaixo na raiz do projeto (onde está o arquivo .csproj):
 ```
 dotnet ef database update
 ```
 
-#### 3. Executando a Aplicação
+#### 5. Executando a Aplicação
 Após configurar o banco, inicie o servidor apertando F5 ou abrindo o terminal e digitando (Lembre-se: Você deve estar dentro da pasta News-Manager):
 ```
 dotnet run
